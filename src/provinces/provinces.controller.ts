@@ -1,4 +1,4 @@
-import { Controller, Get, Param, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Query, NotFoundException } from '@nestjs/common';
 
 import { ProvincesService } from './provinces.service';
 
@@ -6,19 +6,19 @@ import { ProvincesService } from './provinces.service';
 import { City } from './interfaces/city.interface';
 import { Province } from './interfaces/province.interface';
 
-@Controller('provinces')
+@Controller('list')
 export class ProvincesController {
   constructor(private provincesService: ProvincesService) {}
 
-  @Get()
+  @Get('provinces')
   async getAllprovinces() {
     const provinces: Province[] =
       await this.provincesService.findAllProvinces();
     return provinces;
   }
 
-  @Get(':id')
-  async getAllProvinceCities(@Param('id') id: string) {
+  @Get('cities')
+  async getAllProvinceCities(@Query('province_id') id: string) {
     const provinceId = Number(id);
 
     const cities: City[] = await this.provincesService.findAllProvinceCities(
